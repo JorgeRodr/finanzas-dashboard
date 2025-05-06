@@ -1,12 +1,6 @@
 import { Login } from "@/interfaces/login";
+import axios from "axios";
 
 export async function logIn(data: Login) {
-  return await fetch("/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify(data),
-  });
+  return axios.post('/api/auth', data);
 }

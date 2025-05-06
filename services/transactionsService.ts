@@ -1,7 +1,5 @@
 import { Transaction, TransactionFirebaseData } from "@/interfaces/transaction";
-import { db } from "@/lib/firebase";
 import axios from "axios";
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 
 const COLLECTION_NAME = 'transactions';
 
@@ -16,9 +14,9 @@ export const addTransactionToFirestore = async (transaction: Transaction) => {
 
 export const updateTransactionOnFirestore = async (transaction: TransactionFirebaseData) => {
   const {id, ...data} = transaction;
-  await updateDoc(doc(db, COLLECTION_NAME, id), data);
+  return axios.patch(`/api/transactions/${id}`, transaction);
 }
 
 export const deleteTransactionFromFirestore = async (id: TransactionFirebaseData['id']) => {
-  await deleteDoc(doc(db, 'transactions', id));
+  return axios.delete(`/api/transactions/${id}`);
 }

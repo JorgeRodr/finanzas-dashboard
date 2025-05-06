@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { adminAuth } from "@/lib/firebase-admin"; // Asegúrate de tener esto configurado    
-import { cookies } from "next/headers"; // Para leer las cookies en un server component
+import { adminAuth } from "@/lib/firebase-admin";
+import { cookies } from "next/headers";
 import { addDoc, collection } from "firebase/firestore";
 import { TransactionFirebaseData } from "@/interfaces/transaction";
 import { getFirestore } from "firebase-admin/firestore";
