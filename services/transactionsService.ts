@@ -1,8 +1,6 @@
 import { Transaction, TransactionFirebaseData } from "@/interfaces/transaction";
 import axios from "axios";
 
-const COLLECTION_NAME = 'transactions';
-
 export const getTransactionsFromFirestore = () => {
   return axios.get("/api/transactions");
 

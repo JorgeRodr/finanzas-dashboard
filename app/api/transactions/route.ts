@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebase-admin";
 import { cookies } from "next/headers";
-import { addDoc, collection } from "firebase/firestore";
 import { TransactionFirebaseData } from "@/interfaces/transaction";
 import { getFirestore } from "firebase-admin/firestore";
+import { postResponse } from "@/lib/apiResponses";
 
 const COLLECTION_NAME = 'transactions';
 const db = getFirestore();
 
-export async function GET(req: Request) {
+export async function GET() {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
@@ -48,11 +48,11 @@ export async function POST(req: Request) {
     const decodedToken = await adminAuth.verifyIdToken(token);
     const userId = decodedToken.uid;
     const body = await req.json();
-    const data = {userId, ...body}
+    const newTransaction = {userId, ...body}
     const collectionRef = db.collection(COLLECTION_NAME);
 
-    const response = await collectionRef.add(data);
-    return NextResponse.json(response);
+    await collectionRef.add(newTransaction);
+    return postResponse(newTransaction, COLLECTION_NAME);
   } catch (error) {
     console.error("Insert transaction error:", error);
     return NextResponse.json({ error: 'Insert transaction error' }, { status: 403 });
